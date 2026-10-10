@@ -1,0 +1,44 @@
+UNIVERSITY CAMPUS NETWORK CTF
+Challenge Descriptions
+
+========================================
+CHALLENGE 1: THE INTERCEPTED MEMO
+=================================
+
+Category: Cryptography
+Difficulty: Easy
+Attachment: intercepted_memo.txt
+
+Description:
+A memo intended for the university IT team has been intercepted. The message appears to use an old encryption method. Analyse the encrypted text, recover the original message, and find the flag.
+
+Flag:
+CTF{caesar_cipher_found}
+
+========================================
+CHALLENGE 2: WEAK RSA
+=====================
+
+Category: Cryptography
+Difficulty: Easy-Medium
+Attachment: rsa_challenge.txt
+
+Description:
+The university security team has discovered an encrypted message that uses RSA with unusually small parameters. Examine the public values, identify the weakness, and recover the original flag.
+
+Flag:
+CTF{weak_rsa_demo}
+
+========================================
+CHALLENGE 3: HIDDEN IN PLAIN SIGHT
+==================================
+
+Category: Steganography
+Difficulty: Easy-Medium
+Attachment: campus_poster.jpg
+
+Description:
+A campus poster may contain more information than meets the eye. Investigate the image, identify the hidden data, and recover the secret flag.
+
+Flag:
+CTF{hidden_in_plain_sight}

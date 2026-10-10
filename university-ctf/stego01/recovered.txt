@@ -1,0 +1,6 @@
+University Campus CTF
+
+The hidden message was recovered successfully.
+
+CTF{hidden_in_plain_sight}
+
