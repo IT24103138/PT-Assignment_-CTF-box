@@ -1,8 +1,0 @@
-services:
-  osint01:
-    image: nginx:alpine
-    ports:
-      - "8081:80"
-    volumes:
-      - ./web:/usr/share/nginx/html:ro
-    restart: unless-stopped
