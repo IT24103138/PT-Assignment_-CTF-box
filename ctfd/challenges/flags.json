@@ -1,0 +1,16 @@
+[
+    {
+        "id":  1,
+        "challenge_id":  1,
+        "type":  "static",
+        "content":  "CTF{DVWA_SQL_INJECTION_2026}",
+        "data":  ""
+    },
+    {
+        "id":  2,
+        "challenge_id":  2,
+        "type":  "static",
+        "content":  "CTF{MOODLE_ACCESS_CONTROL_2026}",
+        "data":  ""
+    }
+]
