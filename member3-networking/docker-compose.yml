@@ -1,0 +1,79 @@
+# =============================================================================
+#  University Campus Network CTF  -  Networking Domain (Member 3)
+#  IE3132 Penetration Testing - Assignment 02
+#
+#  Isolated CTF subnet: 10.10.20.0/24  (internal bridge, not routed to host)
+#
+#  Hosts:
+#    10.10.20.21  decoy-ssh        red-herring host (SSH)         [NET-01]
+#    10.10.20.22  decoy-web        red-herring host (HTTP)        [NET-01]
+#    10.10.20.30  grading-system   hidden banner svc :40123       [NET-01]
+#    10.10.20.50  library-ftp      vsftpd-style FTP (cleartext)   [NET-02]
+#    10.10.20.100 attacker         your Kali-style workstation
+# =============================================================================
+
+name: net-ctf
+
+services:
+
+  # ---- NET-01: the hidden "Grading System" banner service -----------------
+  grading-system:
+    build: ./net01-shadow-service
+    container_name: ctf-grading-system
+    restart: unless-stopped
+    networks:
+      ctfnet:
+        ipv4_address: 10.10.20.30
+    # NOTE: no host port is published -> the service is only reachable from
+    # inside the CTF subnet, so players must discover it with a scan.
+
+  # ---- NET-01: decoy hosts (give host-discovery some noise) ---------------
+  decoy-ssh:
+    build: ./net01-shadow-service/decoy-ssh
+    container_name: ctf-decoy-ssh
+    restart: unless-stopped
+    networks:
+      ctfnet:
+        ipv4_address: 10.10.20.21
+
+  decoy-web:
+    image: nginx:alpine
+    container_name: ctf-decoy-web
+    restart: unless-stopped
+    networks:
+      ctfnet:
+        ipv4_address: 10.10.20.22
+
+  # ---- NET-02: Library Database FTP server (cleartext creds) --------------
+  library-ftp:
+    build: ./net02-intercepted-transcript
+    container_name: ctf-library-ftp
+    restart: unless-stopped
+    networks:
+      ctfnet:
+        ipv4_address: 10.10.20.50
+
+  # ---- Attacker workstation (where you solve from) ------------------------
+  attacker:
+    build:
+      context: .                      # project root, so it can bundle solvers/
+      dockerfile: attacker/Dockerfile
+    container_name: ctf-attacker
+    restart: unless-stopped
+    # keep it alive so you can `docker compose exec attacker bash`
+    command: ["sleep", "infinity"]
+    cap_add:
+      - NET_ADMIN        # lets nmap do raw-socket scans cleanly
+      - NET_RAW
+    networks:
+      ctfnet:
+        ipv4_address: 10.10.20.100
+
+networks:
+  ctfnet:
+    driver: bridge
+    internal: false          # set to true for *fully* air-gapped lab (see README)
+    ipam:
+      config:
+        - subnet: 10.10.20.0/24
+          gateway: 10.10.20.1
