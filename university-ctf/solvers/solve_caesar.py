@@ -1,8 +1,12 @@
+
 from pathlib import Path
 
-ciphertext = Path(
-    "../crypto01/intercepted_memo.txt"
-).read_text()
+# Find the project folders relative to this script
+BASE_DIR = Path(__file__).resolve().parent
+ciphertext_file = BASE_DIR.parent / "crypto01" / "intercepted_memo.txt"
+
+# Read the encrypted message
+ciphertext = ciphertext_file.read_text(encoding="utf-8")
 
 
 def caesar_decrypt(text, shift):
@@ -23,6 +27,7 @@ def caesar_decrypt(text, shift):
     return "".join(result)
 
 
+# Try every possible Caesar shift
 for shift in range(26):
     print(f"\n--- Shift {shift} ---")
     print(caesar_decrypt(ciphertext, shift))
